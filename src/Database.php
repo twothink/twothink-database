@@ -385,9 +385,26 @@ class Database{
 
             //备份数据记录
             $result = $db->query("SELECT * FROM `{$table}` LIMIT {$start}, 1000");
+
             foreach ($result as $row) {
-                $row = array_map('addslashes', $row);
-                $sql = "INSERT INTO `{$table}` VALUES ('" . str_replace(array("\r","\n"),array('\r','\n'),implode("', '", $row)) . "');\n";
+//                $row = array_map('addslashes', $row);
+//                $sql = "INSERT INTO `{$table}` VALUES ('" . str_replace(array("\r","\n"),array('\\r','\\n'),implode("', '", $row)) . "');\n";
+
+                $sql="INSERT INTO `{$table}` VALUES";
+                $sql.='(';
+                foreach ($row as $v2){
+                    if ($v2===null) {
+                        $sql.="NULL,";
+                    }else{
+                        $v2 = str_replace(["\r","\n"],['\r','\n'],addslashes($v2));
+                        $sql.="'$v2',";
+                    }
+                }
+                $sql=mb_substr($sql, 0, -1);
+                $sql.="),\r\n";
+                $sql=mb_substr($sql, 0, -3);
+                $sql.=";\n";
+
                 if(false === $this->write($sql)){
                     return false;
                 }
@@ -457,6 +474,6 @@ class Database{
      * 析构方法，用于关闭文件资源
      */
     public function __destruct(){
-        //$this->config['compress'] ? @gzclose($this->fp) : @fclose($this->fp);
+//        $this->config['compress'] ? @gzclose($this->fp) : @fclose($this->fp);
     }
 }
