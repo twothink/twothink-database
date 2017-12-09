@@ -1,0 +1,25 @@
+{
+    "name": "twothink/twothink-database",
+    "description": "database package for twothink",
+    "homepage": "https://github.com/twothink/twothink-database",
+    "license": "Apache-2.0",
+    "minimum-stability": "dev",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "593657688",
+            "email": "593657688@qq.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/twothink/twothink-database/issues"
+    },
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "twothink\\": "src/"
+        }
+    }
+}
